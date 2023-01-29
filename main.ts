@@ -56,12 +56,10 @@ let verschil = 0
 let vorige_verschil = 0
 basic.forever(function () {
     if (opnieuw) {
-        // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-        strip.show()
-        for (let index = 0; index <= vorige_verschil; index++) {
-            if (vorige_verschil > Math.abs(vorige_verschil) - 1) {
+        for (let index = 0; index <= Math.abs(vorige_verschil); index++) {
+            if (vorige_verschil > 0) {
                 strip.setPixelColor(index, neopixel.colors(NeoPixelColors.White))
-            } else if (vorige_verschil < 0) {
+            } else if (vorige_verschil <= 0) {
                 strip.setPixelColor(59 - index, neopixel.colors(NeoPixelColors.White))
             }
         }
@@ -69,17 +67,17 @@ basic.forever(function () {
         strip.show()
         basic.pause(1000)
         verschil = links - rechts
-        if (Math.abs(vorige_verschil - verschil) > 0) {
+        if (Math.abs(vorige_verschil) < Math.abs(verschil)) {
             if (vorige_verschil > 0) {
                 strip.setPixelColor(verschil, neopixel.colors(NeoPixelColors.Yellow))
             } else if (vorige_verschil < 0) {
-                strip.setPixelColor(59 - verschil, neopixel.colors(NeoPixelColors.Yellow))
+                strip.setPixelColor(59 + verschil, neopixel.colors(NeoPixelColors.Yellow))
             }
         } else {
             if (vorige_verschil > 0) {
-                strip.setPixelColor(verschil, neopixel.colors(NeoPixelColors.Orange))
+                strip.setPixelColor(vorige_verschil, neopixel.colors(NeoPixelColors.Black))
             } else if (vorige_verschil < 0) {
-                strip.setPixelColor(59 - verschil, neopixel.colors(NeoPixelColors.Orange))
+                strip.setPixelColor(59 + vorige_verschil, neopixel.colors(NeoPixelColors.Black))
             }
         }
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
@@ -119,10 +117,12 @@ basic.forever(function () {
         music.playTone(131, music.beat(BeatFraction.Quarter))
         links = links + 1
         opnieuw = true
+        strip.clear()
     }
     if (led_index > 54) {
         music.playTone(988, music.beat(BeatFraction.Quarter))
         rechts = rechts + 1
         opnieuw = true
+        strip.clear()
     }
 })

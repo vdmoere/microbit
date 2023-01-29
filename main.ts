@@ -50,13 +50,45 @@ strip.setBrightness(100)
 strip.clear()
 let opnieuw = true
 music.setVolume(25)
+let links = 0
+let rechts = 0
+let verschil = 0
+let vorige_verschil = 0
 basic.forever(function () {
     if (opnieuw) {
-        led_index = 29
-        lumi = 50
-        strip.clear()
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
         strip.show()
+        for (let index = 0; index <= vorige_verschil; index++) {
+            if (vorige_verschil > Math.abs(vorige_verschil) - 1) {
+                strip.setPixelColor(index, neopixel.colors(NeoPixelColors.White))
+            } else if (vorige_verschil < 0) {
+                strip.setPixelColor(59 - index, neopixel.colors(NeoPixelColors.White))
+            }
+        }
+        // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
+        strip.show()
+        basic.pause(1000)
+        verschil = links - rechts
+        if (Math.abs(vorige_verschil - verschil) > 0) {
+            if (vorige_verschil > 0) {
+                strip.setPixelColor(verschil, neopixel.colors(NeoPixelColors.Yellow))
+            } else if (vorige_verschil < 0) {
+                strip.setPixelColor(59 - verschil, neopixel.colors(NeoPixelColors.Yellow))
+            }
+        } else {
+            if (vorige_verschil > 0) {
+                strip.setPixelColor(verschil, neopixel.colors(NeoPixelColors.Orange))
+            } else if (vorige_verschil < 0) {
+                strip.setPixelColor(59 - verschil, neopixel.colors(NeoPixelColors.Orange))
+            }
+        }
+        // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
+        strip.show()
+        basic.pause(1000)
+        led_index = 29
+        lumi = 50
+        vorige_verschil = verschil
+        strip.clear()
         for (let index = 0; index <= 5; index++) {
             strip.setPixelColor(led_index - index, neopixel.hsl(0, 100 - index * 2, lumi - index * 10))
         }
@@ -67,7 +99,7 @@ basic.forever(function () {
         strip.show()
         opnieuw = false
     }
-    random = randint(1, 2)
+    random = randint(1, 10)
     if (Math.randomBoolean()) {
         for (let index = 0; index < random; index++) {
             strip.shift(1)
@@ -85,32 +117,12 @@ basic.forever(function () {
     }
     if (led_index < 5) {
         music.playTone(131, music.beat(BeatFraction.Quarter))
-        for (let index = 0; index < 10; index++) {
-            strip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
-            // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-            strip.show()
-            basic.pause(100)
-            strip.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
-            // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-            strip.show()
-            basic.pause(100)
-        }
+        links = links + 1
         opnieuw = true
     }
     if (led_index > 54) {
         music.playTone(988, music.beat(BeatFraction.Quarter))
+        rechts = rechts + 1
         opnieuw = true
-        for (let index = 0; index < 10; index++) {
-            strip.setPixelColor(59, neopixel.colors(NeoPixelColors.White))
-            // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-            strip.show()
-            basic.pause(100)
-            strip.setPixelColor(59, neopixel.colors(NeoPixelColors.Red))
-            // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-            strip.show()
-            basic.pause(100)
-        }
     }
-    // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-    strip.show()
 })

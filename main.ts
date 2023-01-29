@@ -59,7 +59,7 @@ basic.forever(function () {
         for (let index = 0; index <= Math.abs(vorige_verschil); index++) {
             if (vorige_verschil > 0) {
                 strip.setPixelColor(index, neopixel.colors(NeoPixelColors.White))
-            } else if (vorige_verschil <= 0) {
+            } else if (vorige_verschil < 0) {
                 strip.setPixelColor(59 - index, neopixel.colors(NeoPixelColors.White))
             }
         }
@@ -83,7 +83,7 @@ basic.forever(function () {
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
         strip.show()
         basic.pause(1000)
-        led_index = 29
+        led_index = 30
         lumi = 50
         vorige_verschil = verschil
         strip.clear()
@@ -97,7 +97,7 @@ basic.forever(function () {
         strip.show()
         opnieuw = false
     }
-    random = randint(1, 10)
+    random = randint(1, 2)
     if (Math.randomBoolean()) {
         for (let index = 0; index < random; index++) {
             strip.shift(1)

@@ -45,14 +45,14 @@ let stop = 0
 let start = 0
 let brightness = 0
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P0, 66, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P0, 60, NeoPixelMode.RGB)
 strip.setBrightness(100)
 strip.clear()
 let opnieuw = true
 music.setVolume(25)
 basic.forever(function () {
     if (opnieuw) {
-        led_index = 33
+        led_index = 29
         lumi = 50
         strip.clear()
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.

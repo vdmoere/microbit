@@ -61,19 +61,18 @@ basic.forever(function () {
             strip.setPixelColor(led_index - index, neopixel.hsl(0, 100 - index * 2, lumi - index * 10))
         }
         for (let index = 0; index <= 5; index++) {
-            strip.setPixelColor(led_index + index, neopixel.hsl(0, 100 - index * 1, lumi - index * 10))
+            strip.setPixelColor(led_index + index, neopixel.hsl(0, 100 - index * 2, lumi - index * 10))
         }
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
         strip.show()
         opnieuw = false
     }
-    random = randint(1, 3)
+    random = randint(1, 2)
     if (Math.randomBoolean()) {
         for (let index = 0; index < random; index++) {
             strip.shift(1)
             // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
             strip.show()
-            basic.pause(1)
         }
         led_index = led_index + random
     } else {
@@ -81,7 +80,6 @@ basic.forever(function () {
             strip.shift(-1)
             // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
             strip.show()
-            basic.pause(1)
         }
         led_index = led_index - random
     }

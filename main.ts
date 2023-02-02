@@ -1,59 +1,37 @@
 input.onButtonPressed(Button.A, function () {
-    for (let index = 0; index < 10; index++) {
-        music.playTone(131, music.beat(BeatFraction.Sixteenth))
-        strip = neopixel.create(DigitalPin.P0, 80, NeoPixelMode.RGB)
-        strip.setBrightness(100)
-        for (let index = 0; index <= 79; index++) {
-            strip.setPixelColor(index, neopixel.colors(NeoPixelColors.White))
-            // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
-            strip.show()
-            basic.pause(1)
-            strip.clear()
-        }
-        strip.clear()
+    music.setVolume(100)
+    if (brightness >= 0) {
+        music.playTone(988, music.beat(BeatFraction.Whole))
+        brightness += -10
+        strip.setBrightness(brightness)
+        strip.show()
+    } else {
+        music.playTone(131, music.beat(BeatFraction.Whole))
+        brightness = 100
+        strip.setBrightness(brightness)
         strip.show()
     }
+    music.setVolume(0)
 })
 input.onButtonPressed(Button.B, function () {
-    brightness = 100
-    start = 0
-    stop = 360
-    music.playTone(988, music.beat(BeatFraction.Sixteenth))
-    strip = neopixel.create(DigitalPin.P0, 80, NeoPixelMode.RGB)
-    strip.setBrightness(brightness)
-    strip.showRainbow(0, 360)
-    for (let index = 0; index < 200; index++) {
-        start += 10
-        stop += 10
-        strip.showRainbow(start, stop)
-        strip.show()
-        basic.pause(20)
-    }
-    music.playTone(988, music.beat(BeatFraction.Sixteenth))
-    for (let index = 0; index < 60; index++) {
-        strip.shift(1)
-        strip.show()
-        basic.pause(20)
-    }
-    strip.clear()
-    strip.show()
+	
 })
 let random = 0
 let lumi = 0
 let led_index = 0
-let stop = 0
-let start = 0
 let brightness = 0
 let strip: neopixel.Strip = null
 strip = neopixel.create(DigitalPin.P0, 60, NeoPixelMode.RGB)
-strip.setBrightness(100)
+strip.setBrightness(20)
 strip.clear()
 let opnieuw = true
-music.setVolume(25)
+music.setVolume(0)
 let links = 0
 let rechts = 0
 let verschil = 0
 let vorige_verschil = 0
+let _switch = true
+brightness = 100
 basic.forever(function () {
     if (opnieuw) {
         for (let index = 0; index <= Math.abs(vorige_verschil); index++) {
@@ -61,6 +39,9 @@ basic.forever(function () {
                 strip.setPixelColor(index, neopixel.colors(NeoPixelColors.White))
             } else if (vorige_verschil < 0) {
                 strip.setPixelColor(59 - index, neopixel.colors(NeoPixelColors.White))
+            } else {
+                strip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
+                strip.setPixelColor(59, neopixel.colors(NeoPixelColors.White))
             }
         }
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
@@ -83,7 +64,7 @@ basic.forever(function () {
         // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
         strip.show()
         basic.pause(1000)
-        led_index = 30
+        led_index = 29
         lumi = 50
         vorige_verschil = verschil
         strip.clear()
@@ -97,15 +78,15 @@ basic.forever(function () {
         strip.show()
         opnieuw = false
     }
-    random = randint(1, 2)
-    if (Math.randomBoolean()) {
+    random = randint(-2, 2)
+    if (random > 0) {
         for (let index = 0; index < random; index++) {
             strip.shift(1)
             // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
             strip.show()
         }
         led_index = led_index + random
-    } else {
+    } else if (random < 0) {
         for (let index = 0; index < random; index++) {
             strip.shift(-1)
             // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.

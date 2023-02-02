@@ -87,12 +87,12 @@ basic.forever(function () {
         }
         led_index = led_index + random
     } else if (random < 0) {
-        for (let index = 0; index < random; index++) {
+        for (let index = 0; index < Math.abs(random); index++) {
             strip.shift(-1)
             // Pas bij dit blok worden de hiervoor ingestelde aanpassingen getoond.
             strip.show()
         }
-        led_index = led_index - random
+        led_index = led_index + random
     }
     if (led_index < 5) {
         music.playTone(131, music.beat(BeatFraction.Quarter))
